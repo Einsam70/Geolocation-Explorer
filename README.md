@@ -12,6 +12,8 @@ El archivo descargado contiene dos columnas separadas por coma (,) siendo el pri
 
 ![Imagen mostrando aplicación 1](/screenshots/imagen1.png)
 
+Puedes ver el resultado en los archivos CSV en la carpeta samples del proyecto.
+
 # 3. Por hacer
 
 - Depuración de CSV origen para acelerar procesos
