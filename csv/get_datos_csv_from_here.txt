@@ -1,0 +1,5 @@
+Puedes obtener el archivo csv necesario en la siguiente web:
+
+https://db-ip.com/db/download/ip-to-city-lite
+
+Tras marcar "I agree with the licensing terms" elige el archivo CSV para descargar. Una vez descargado, descomprímelo y renómbralo a "datos.csv" dentro de esta carpeta "csv"
