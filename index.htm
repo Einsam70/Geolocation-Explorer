@@ -1,0 +1,941 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de regiones por país</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        button {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+        .buttonsigue {
+            background-color: #4199d7;
+            color: white;
+            cursor: pointer;
+        }
+        .bajacsv {
+            background-color: #a8242d;
+            color: white;
+            cursor: pointer;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        .campo-texto {
+            width: 300px;
+            height: 200px;
+            resize: none;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Listado de IPs por localización (DB-Ip)</h2>
+
+    <label for="paises">Selecciona un país:</label>
+    <select id="paises" onchange="seleccionarPais()">
+        <option value="">...</option>
+        <option value="AF">Afganistán</option>
+        <option value="AX">Islas de Åland</option>
+        <option value="AL">Albania</option>
+        <option value="DZ">Argelia</option>
+        <option value="AS">Samoa Americana</option>
+        <option value="AD">Andorra</option>
+        <option value="AO">Angola</option>
+        <option value="AI">Anguila</option>
+        <option value="AQ">Antártida</option>
+        <option value="AG">Antigua y Barbuda</option>
+        <option value="AR">Argentina</option>
+        <option value="AM">Armenia</option>
+        <option value="AW">Aruba</option>
+        <option value="AU">Australia</option>
+        <option value="AT">Austria</option>
+        <option value="AZ">Azerbaiyán</option>
+        <option value="BS">Bahamas</option>
+        <option value="BH">Baréin</option>
+        <option value="BD">Bangladés</option>
+        <option value="BB">Barbados</option>
+        <option value="BY">Bielorrusia</option>
+        <option value="BE">Bélgica</option>
+        <option value="BZ">Belice</option>
+        <option value="BJ">Benín</option>
+        <option value="BM">Bermudas</option>
+        <option value="BT">Bután</option>
+        <option value="BO">Bolivia</option>
+        <option value="BA">Bosnia y Herzegovina</option>
+        <option value="BW">Botsuana</option>
+        <option value="BV">Isla Bouvet</option>
+        <option value="BR">Brasil</option>
+        <option value="IO">Territorio Británico del Océano Índico</option>
+        <option value="BN">Brunéi</option>
+        <option value="BG">Bulgaria</option>
+        <option value="BF">Burkina Faso</option>
+        <option value="BI">Burundi</option>
+        <option value="KH">Camboya</option>
+        <option value="CM">Camerún</option>
+        <option value="CA">Canadá</option>
+        <option value="CV">Cabo Verde</option>
+        <option value="BQ">Caribe neerlandés</option>
+        <option value="KY">Islas Caimán</option>
+        <option value="CF">República Centroafricana</option>
+        <option value="TD">Chad</option>
+        <option value="CL">Chile</option>
+        <option value="CN">China</option>
+        <option value="CX">Isla de Navidad</option>
+        <option value="CC">Islas Cocos</option>
+        <option value="CO">Colombia</option>
+        <option value="KM">Comoras</option>
+        <option value="CG">República del Congo</option>
+        <option value="CD">República Democrática del Congo</option>
+        <option value="CK">Islas Cook</option>
+        <option value="CR">Costa Rica</option>
+        <option value="CI">Costa de Marfil</option>
+        <option value="HR">Croacia</option>
+        <option value="CU">Cuba</option>
+        <option value="CW">Curazao</option>
+        <option value="CY">Chipre</option>
+        <option value="CZ">República Checa</option>
+        <option value="DK">Dinamarca</option>
+        <option value="DJ">Yibuti</option>
+        <option value="DM">Dominica</option>
+        <option value="DO">República Dominicana</option>
+        <option value="EC">Ecuador</option>
+        <option value="EG">Egipto</option>
+        <option value="SV">El Salvador</option>
+        <option value="GQ">Guinea Ecuatorial</option>
+        <option value="ER">Eritrea</option>
+        <option value="EE">Estonia</option>
+        <option value="SZ">Suazilandia</option>
+        <option value="ET">Etiopía</option>
+        <option value="FK">Islas Malvinas</option>
+        <option value="FO">Islas Feroe</option>
+        <option value="FJ">Fiyi</option>
+        <option value="FI">Finlandia</option>
+        <option value="FR">Francia</option>
+        <option value="GF">Guayana Francesa</option>
+        <option value="PF">Polinesia Francesa</option>
+        <option value="TF">Territorios Australes Franceses</option>
+        <option value="GA">Gabón</option>
+        <option value="GM">Gambia</option>
+        <option value="GE">Georgia</option>
+        <option value="DE">Alemania</option>
+        <option value="GH">Ghana</option>
+        <option value="GI">Gibraltar</option>
+        <option value="GR">Grecia</option>
+        <option value="GL">Groenlandia</option>
+        <option value="GD">Granada</option>
+        <option value="GP">Guadalupe</option>
+        <option value="GU">Guam</option>
+        <option value="GT">Guatemala</option>
+        <option value="GG">Guernsey</option>
+        <option value="GN">Guinea</option>
+        <option value="GW">Guinea-Bisáu</option>
+        <option value="GY">Guyana</option>
+        <option value="HT">Haití</option>
+        <option value="HM">Islas Heard y McDonald</option>
+        <option value="VA">Ciudad del Vaticano</option>
+        <option value="HN">Honduras</option>
+        <option value="HK">Hong Kong</option>
+        <option value="HU">Hungría</option>
+        <option value="IS">Islandia</option>
+        <option value="IN">India</option>
+        <option value="ID">Indonesia</option>
+        <option value="IR">Irán</option>
+        <option value="IQ">Iraq</option>
+        <option value="IE">Irlanda</option>
+        <option value="IM">Isla de Man</option>
+        <option value="IL">Israel</option>
+        <option value="IT">Italia</option>
+        <option value="JM">Jamaica</option>
+        <option value="JP">Japón</option>
+        <option value="JE">Jersey</option>
+        <option value="JO">Jordania</option>
+        <option value="KZ">Kazajistán</option>
+        <option value="KE">Kenia</option>
+        <option value="KI">Kiribati</option>
+        <option value="KW">Kuwait</option>
+        <option value="KG">Kirguistán</option>
+        <option value="LA">Laos</option>
+        <option value="LV">Letonia</option>
+        <option value="LB">Líbano</option>
+        <option value="LS">Lesoto</option>
+        <option value="LR">Liberia</option>
+        <option value="LY">Libia</option>
+        <option value="LI">Liechtenstein</option>
+        <option value="LT">Lituania</option>
+        <option value="LU">Luxemburgo</option>
+        <option value="MO">Macao</option>
+        <option value="MK">Macedonia del Norte</option>
+        <option value="MG">Madagascar</option>
+        <option value="MW">Malaui</option>
+        <option value="MY">Malasia</option>
+        <option value="MV">Maldivas</option>
+        <option value="ML">Malí</option>
+        <option value="MT">Malta</option>
+        <option value="MH">Islas Marshall</option>
+        <option value="MQ">Martinica</option>
+        <option value="MR">Mauritania</option>
+        <option value="MU">Mauricio</option>
+        <option value="YT">Mayotte</option>
+        <option value="MX">México</option>
+        <option value="FM">Micronesia</option>
+        <option value="MD">Moldavia</option>
+        <option value="MC">Mónaco</option>
+        <option value="MN">Mongolia</option>
+        <option value="ME">Montenegro</option>
+        <option value="MS">Montserrat</option>
+        <option value="MA">Marruecos</option>
+        <option value="MZ">Mozambique</option>
+        <option value="MM">Birmania</option>
+        <option value="NA">Namibia</option>
+        <option value="NR">Nauru</option>
+        <option value="NP">Nepal</option>
+        <option value="NL">Países Bajos</option>
+        <option value="NC">Nueva Caledonia</option>
+        <option value="NZ">Nueva Zelanda</option>
+        <option value="NI">Nicaragua</option>
+        <option value="NE">Níger</option>
+        <option value="NG">Nigeria</option>
+        <option value="NU">Niue</option>
+        <option value="NF">Isla Norfolk</option>
+        <option value="KP">Corea del Norte</option>
+        <option value="MP">Islas Marianas del Norte</option>
+        <option value="NO">Noruega</option>
+        <option value="OM">Omán</option>
+        <option value="PK">Pakistán</option>
+        <option value="PW">Palaos</option>
+        <option value="PS">Territorios Palestinos</option>
+        <option value="PA">Panamá</option>
+        <option value="PG">Papúa Nueva Guinea</option>
+        <option value="PY">Paraguay</option>
+        <option value="PE">Perú</option>
+        <option value="PH">Filipinas</option>
+        <option value="PN">Islas Pitcairn</option>
+        <option value="PL">Polonia</option>
+        <option value="PT">Portugal</option>
+        <option value="PR">Puerto Rico</option>
+        <option value="QA">Catar</option>
+        <option value="RE">Reunión</option>
+        <option value="RO">Rumania</option>
+        <option value="RU">Rusia</option>
+        <option value="RW">Ruanda</option>
+        <option value="BL">San Bartolomé</option>
+        <option value="SH">Santa Elena, Ascensión y Tristán de Acuña</option>
+        <option value="KN">San Cristóbal y Nieves</option>
+        <option value="LC">Santa Lucía</option>
+        <option value="MF">San Martín (Francia)</option>
+        <option value="PM">San Pedro y Miquelón</option>
+        <option value="VC">San Vicente y las Granadinas</option>
+        <option value="WS">Samoa</option>
+        <option value="SM">San Marino</option>
+        <option value="ST">Santo Tomé y Príncipe</option>
+        <option value="SA">Arabia Saudita</option>
+        <option value="SN">Senegal</option>
+        <option value="RS">Serbia</option>
+        <option value="SC">Seychelles</option>
+        <option value="SL">Sierra Leona</option>
+        <option value="SG">Singapur</option>
+        <option value="SX">San Martín (Países Bajos)</option>
+        <option value="SK">Eslovaquia</option>
+        <option value="SI">Eslovenia</option>
+        <option value="SB">Islas Salomón</option>
+        <option value="SO">Somalia</option>
+        <option value="ZA">Sudáfrica</option>
+        <option value="GS">Islas Georgias del Sur y Sandwich del Sur</option>
+        <option value="KR">Corea del Sur</option>
+        <option value="SS">Sudán del Sur</option>
+        <option value="ES">España</option>
+        <option value="LK">Sri Lanka</option>
+        <option value="SD">Sudán</option>
+        <option value="SR">Surinam</option>
+        <option value="SJ">Svalbard y Jan Mayen</option>
+        <option value="SE">Suecia</option>
+        <option value="CH">Suiza</option>
+        <option value="SY">Siria</option>
+        <option value="TW">Taiwán</option>
+        <option value="TJ">Tayikistán</option>
+        <option value="TZ">Tanzania</option>
+        <option value="TH">Tailandia</option>
+        <option value="TL">Timor Oriental</option>
+        <option value="TG">Togo</option>
+        <option value="TK">Tokelau</option>
+        <option value="TO">Tonga</option>
+        <option value="TT">Trinidad y Tobago</option>
+        <option value="TN">Túnez</option>
+        <option value="TR">Turquía</option>
+        <option value="TM">Turkmenistán</option>
+        <option value="TC">Islas Turcas y Caicos</option>
+        <option value="TV">Tuvalu</option>
+        <option value="UG">Uganda</option>
+        <option value="UA">Ucrania</option>
+        <option value="AE">Emiratos Árabes Unidos</option>
+        <option value="GB">Reino Unido</option>
+        <option value="US">Estados Unidos</option>
+        <option value="UM">Islas menores alejadas de los Estados Unidos</option>
+        <option value="UY">Uruguay</option>
+        <option value="UZ">Uzbekistán</option>
+        <option value="VU">Vanuatu</option>
+        <option value="VE">Venezuela</option>
+        <option value="VN">Vietnam</option>
+        <option value="VG">Islas Vírgenes Británicas</option>
+        <option value="VI">Islas Vírgenes de los Estados Unidos</option>
+        <option value="WF">Wallis y Futuna</option>
+        <option value="EH">Sahara Occidental</option>
+        <option value="YE">Yemen</option>
+        <option value="ZM">Zambia</option>
+        <option value="ZW">Zimbabue</option>
+    </select>
+    <br>
+
+    <label for="pais">Introduce el país:</label>
+    <input type="text" id="pais" placeholder="Introduce el país">
+    <button class="buttonsigue" onclick="buscarDatos()">GO</button>
+    <button class="bajacsv" onclick="bajacsv0()">Bajar CSV</button>
+    <br>
+    <label for="region">Selecciona una región:</label>
+    <select id="region" onchange="cuentarangos1()">
+        <option value="">Seleccione...</option>
+    </select>
+    <button class="buttonsigue" onclick="filtrarCiudades()">Cargar ciudades</button>
+    <button onclick="mostrarDatos1()">Filtro por Región</button>  
+    <button class="bajacsv" onclick="bajacsv1()">Bajar CSV</button>  
+    <br>
+    <label for="ciudad">Selecciona una ciudad:</label>
+    <select id="ciudad" onchange="cuentarangos2()">
+        <option value="">Seleccione...</option>
+    </select>
+    <button onclick="mostrarDatos()">Filtro por Ciudad</button>
+    <button class="bajacsv" onclick="bajacsv2()">Bajar CSV</button>
+    <br>
+    <br>
+    <div class="container">
+        <div>
+            <div>
+                <label for="campo1">Ip Inicio:</label><br>
+                <textarea id="campo1" class="campo-texto" readonly></textarea>
+            </div>
+            <div>
+                <button class="boton-copiar" onclick="copiarContenido('campo1')">Copiar Campo 1</button>
+            </div>            
+        </div>
+        <div>
+            <div>
+                <label for="campo2">Ip Fin:</label><br>
+                <textarea id="campo2" class="campo-texto" readonly></textarea>
+            </div>
+            <div>
+                <button class="boton-copiar" onclick="copiarContenido('campo2')">Copiar Campo 2</button>
+            </div>            
+        </div>
+    </div>
+    <br>
+    <div id="progreso"></div>
+    <div id="numlineas"></div>
+
+    <script>
+        // Función para limpiar las comillas de un valor CSV
+        function limpiarComillas(valor) {
+            return valor.replace(/^"(.*)"$/, '$1');
+        }
+
+        // Función para leer el archivo CSV y mostrar el progreso
+        function leerCSV() {
+            const archivo = 'csv/datos.csv'; // Ruta al archivo CSV
+            const pais = document.getElementById('pais').value.trim().toLowerCase();
+            let contador = 0;
+            let totalFilas = 0;
+            let lineasCoincidentes = 0;
+
+            fetch(archivo)
+                .then(response => response.text())
+                .then(data => {
+                    // Limpiar el CSV de comillas
+                    data = data.replace(/"(.*?)"/g, limpiarComillas);
+
+                    const filas = data.split('\n');
+                    totalFilas = filas.length;
+                    const regiones = new Set();
+
+                    for (const fila of filas) {
+                        const datos = fila.split(',');
+                        if (datos.length >= 6 && datos[3].trim().toLowerCase() === pais) {
+                            if (!esIPv6(datos[0].trim()) && !esIPv6(datos[1].trim())) {
+                                regiones.add(datos[4].trim());
+                                lineasCoincidentes++;
+                            }
+                        }
+                    }
+
+                    const regionSelect = document.getElementById('region');
+                    regionSelect.innerHTML = '<option value="">Seleccione...</option>';
+                    for (const region of Array.from(regiones).sort()) {
+                        regionSelect.innerHTML += `<option value="${region}">${region}</option>`;
+                    }
+                })
+                .catch(error => console.error('Error al leer el archivo CSV:', error))
+                .finally(() => {
+                    const progresoDiv = document.getElementById('progreso');
+                    progresoDiv.innerHTML = `Listado de Regiones cargado`;
+                    const lineastotal = document.getElementById('numlineas');
+                    lineastotal.innerHTML = lineasCoincidentes + ' rangos encontrados';
+                });
+        }
+
+        // Función para filtrar las ciudades basadas en la región seleccionada
+        function filtrarCiudades() {
+            const seleccionado = document.getElementById('region').value;
+
+            // Verificar si no se ha seleccionado ningún valor
+            if (!seleccionado) {
+                // Si no se ha seleccionado ningún valor, mostrar un mensaje y detener la ejecución
+                alert('Por favor, seleccione una región');
+                return; // Detiene la ejecución de la función
+            }
+
+            const progresoDiv = document.getElementById('progreso');
+            const lineastotal = document.getElementById('numlineas');
+            progresoDiv.innerHTML = `Cargando...`;
+            lineastotal.innerHTML = '';
+            let lineasCoincidentes = 0;
+
+            var limp1 = document.getElementById('campo1');
+            var limp2 = document.getElementById('campo2');
+            limp1.value = "";
+            limp2.value = "";
+
+            const regionSeleccionada = document.getElementById('region').value;
+            const pais = document.getElementById('pais').value.trim().toLowerCase();
+            const ciudadSelect = document.getElementById('ciudad');
+            ciudadSelect.innerHTML = '<option value="">Seleccione...</option>';
+            let contador = 0;
+            let totalFilas = 0;
+            let ciudades = [];
+
+            fetch('csv/datos.csv')
+                .then(response => response.text())
+                .then(data => {
+                    // Limpiar el CSV de comillas
+                    data = data.replace(/"(.*?)"/g, limpiarComillas);
+
+                    const filas = data.split('\n');
+                    totalFilas = filas.length;
+
+                    for (const fila of filas) {
+                        const datos = fila.split(',');
+                        if (datos.length >= 6 && datos[3].trim().toLowerCase() === pais && datos[4].trim() === regionSeleccionada) {
+                            if (!esIPv6(datos[0].trim()) && !esIPv6(datos[1].trim())) {
+                                ciudades.push(datos[5].trim());
+                                lineasCoincidentes++;
+                            }
+                        }
+
+                        contador += 1;
+                        actualizarProgreso(contador, totalFilas);
+                    }
+
+                    // Ordenar las ciudades alfabéticamente
+                    ciudades.sort();
+
+                    // Eliminar duplicados
+                    const ciudadesUnicas = Array.from(new Set(ciudades));
+
+                    // Llenar el desplegable de ciudades
+                    for (const ciudad of ciudadesUnicas) {
+                        ciudadSelect.innerHTML += `<option value="${ciudad}">${ciudad}</option>`;
+                    }
+                })
+                .catch(error => console.error('Error al leer el archivo CSV:', error))
+                .finally(() => {
+                    const progresoDiv = document.getElementById('progreso');
+                    progresoDiv.innerHTML = `Listado de Ciudades cargado`;
+                    const lineastotal = document.getElementById('numlineas');
+                    lineastotal.innerHTML = lineasCoincidentes + ' rangos encontrados';
+                });
+        }
+
+        // Función para actualizar el progreso
+        function actualizarProgreso(completadas, total) {
+            const porcentaje = Math.round((completadas / total) * 100);
+            const progresoDiv = document.getElementById('progreso');
+            progresoDiv.innerHTML = `Procesado: ${porcentaje}%`;
+        }
+
+        // Función para buscar datos al hacer clic en el botón "GO"
+        function buscarDatos() {
+            const paisInput = document.getElementById('pais').value;
+            if (paisInput.trim() === '') {
+                // Si está vacío, mostrar un mensaje y detener la ejecución
+                alert('Por favor, ingrese un país');
+                return; // Detiene la ejecución de la función
+            }
+            const progresoDiv = document.getElementById('progreso');
+            const lineastotal = document.getElementById('numlineas');
+            progresoDiv.innerHTML = `Cargando...`;
+            lineastotal.innerHTML = '';
+
+            leerCSV();
+        }
+
+        // Escuchar cambios en el textbox para cargar las regiones
+        document.getElementById('pais').addEventListener('input', leerCSV);
+
+        // Función para mostrar los datos de campo1 y campo2
+        function mostrarDatos() {
+            const seleccionado = document.getElementById('ciudad').value;
+
+            // Verificar si no se ha seleccionado ningún valor
+            if (!seleccionado) {
+                // Si no se ha seleccionado ningún valor, mostrar un mensaje y detener la ejecución
+                alert('Por favor, seleccione una ciudad');
+                return; // Detiene la ejecución de la función
+            }
+
+            const progresoDiv = document.getElementById('progreso');
+            const lineastotal = document.getElementById('numlineas');
+            progresoDiv.innerHTML = `Cargando...`;
+            lineastotal.innerHTML = '';
+            let lineasCoincidentes = 0;
+
+            const ciudadSeleccionada = document.getElementById('ciudad').value;
+            const pais = document.getElementById('pais').value.trim().toLowerCase();
+            const region = document.getElementById('region').value.trim();
+            let campo1 = [];
+            let campo2 = [];
+
+            fetch('csv/datos.csv')
+                .then(response => response.text())
+                .then(data => {
+                    // Limpiar el CSV de comillas
+                    data = data.replace(/"(.*?)"/g, limpiarComillas);
+
+                    const filas = data.split('\n');
+
+                    for (const fila of filas) {
+                        const datos = fila.split(',');
+                        if (datos.length >= 6 && datos[3].trim().toLowerCase() === pais && datos[4].trim() === region && datos[5].trim() === ciudadSeleccionada) {
+                            // Filtrar solo los valores de IPv4
+                            if (!esIPv6(datos[0].trim()) && !esIPv6(datos[1].trim())) {
+                                campo1.push(datos[0].trim());
+                                campo2.push(datos[1].trim());
+                                lineasCoincidentes++;
+                            }
+                        }
+                    }
+
+                    document.getElementById('campo1').value = campo1.join('\n');
+                    document.getElementById('campo2').value = campo2.join('\n');
+                })
+                .catch(error => console.error('Error al leer el archivo CSV:', error))
+                .finally(() => {
+                    const progresoDiv = document.getElementById('progreso');
+                    progresoDiv.innerHTML = `Listado de IPs cargado`;
+                    const lineastotal = document.getElementById('numlineas');
+                    lineastotal.innerHTML = lineasCoincidentes + ' rangos encontrados';
+                });
+        }
+
+        function mostrarDatos1() {
+            const seleccionado = document.getElementById('region').value;
+
+            // Verificar si no se ha seleccionado ningún valor
+            if (!seleccionado) {
+                // Si no se ha seleccionado ningún valor, mostrar un mensaje y detener la ejecución
+                alert('Por favor, seleccione una región');
+                return; // Detiene la ejecución de la función
+            }
+
+            const progresoDiv = document.getElementById('progreso');
+            const lineastotal = document.getElementById('numlineas');
+            progresoDiv.innerHTML = `Cargando...`;
+            lineastotal.innerHTML = '';
+            let lineasCoincidentes = 0;
+
+            //const ciudadSeleccionada = document.getElementById('ciudad').value;
+            const pais = document.getElementById('pais').value.trim().toLowerCase();
+            const region = document.getElementById('region').value.trim();
+            let campo1 = [];
+            let campo2 = [];
+
+            fetch('csv/datos.csv')
+                .then(response => response.text())
+                .then(data => {
+                    // Limpiar el CSV de comillas
+                    data = data.replace(/"(.*?)"/g, limpiarComillas);
+
+                    const filas = data.split('\n');
+
+                    for (const fila of filas) {
+                        const datos = fila.split(',');
+                        if (datos.length >= 6 && datos[3].trim().toLowerCase() === pais && datos[4].trim() === region) {
+                            // Filtrar solo los valores de IPv4
+                            if (!esIPv6(datos[0].trim()) && !esIPv6(datos[1].trim())) {
+                                campo1.push(datos[0].trim());
+                                campo2.push(datos[1].trim());
+                                lineasCoincidentes++;
+                            }
+                        }
+                    }
+
+                    document.getElementById('campo1').value = campo1.join('\n');
+                    document.getElementById('campo2').value = campo2.join('\n');
+                })
+                .catch(error => console.error('Error al leer el archivo CSV:', error))
+                .finally(() => {
+                    const progresoDiv = document.getElementById('progreso');
+                    progresoDiv.innerHTML = `Listado de IPs cargado`;
+                    const lineastotal = document.getElementById('numlineas');
+                    lineastotal.innerHTML = lineasCoincidentes + ' rangos encontrados';
+                });
+        }
+
+        // Función para verificar si una cadena es un valor de IPv6
+        function esIPv6(cadena) {
+            // Expresión regular para IPv6
+            const ipv6Regex = /^(?=.*[a-fA-F0-9:]+)([a-fA-F0-9:]+)$/;
+
+            return ipv6Regex.test(cadena);
+        }
+
+        function seleccionarPais() {
+            limpiarform();
+            const paisSeleccionado = document.getElementById('paises').value;
+            //document.getElementById('codigo_iso').value = paisSeleccionado;
+            document.getElementById('pais').value = paisSeleccionado;
+        }
+
+        // Función para ordenar el desplegable por nombre de país
+        window.onload = function() {
+            const selectPaises = document.getElementById('paises');
+            const opciones = Array.from(selectPaises.options);
+            opciones.sort((a, b) => a.text.localeCompare(b.text));
+            selectPaises.innerHTML = "";
+            opciones.forEach(opcion => selectPaises.appendChild(opcion));
+            selectPaises.selectedIndex = 0;
+        }
+
+        function copiarContenido(idCampo) {
+            const campo = document.getElementById(idCampo);
+            campo.select();
+            document.execCommand('copy');
+            alert('El contenido se ha copiado al portapapeles.');
+        }
+
+        function bajacsv0() {
+            const seleccionado = document.getElementById('pais').value;
+            if (!seleccionado) {
+                alert('Por favor, seleccione una pais');
+                return;
+            }
+            const progresoDiv = document.getElementById('progreso');
+            const lineastotal = document.getElementById('numlineas');
+            progresoDiv.innerHTML = `Cargando...`;
+            lineastotal.innerHTML = '';
+
+            const pais = document.getElementById('pais').value.trim().toLowerCase();
+            const campo1 = [];
+            const campo2 = [];
+            let lineasCoincidentes = 0;
+
+            fetch('csv/datos.csv')
+                .then(response => response.text())
+                .then(data => {
+                    // Limpiar el CSV de comillas
+                    data = data.replace(/"(.*?)"/g, limpiarComillas);
+
+                    const filas = data.split('\n');
+
+                    for (const fila of filas) {
+                        const datos = fila.split(',');
+                        if (datos.length >= 6 && datos[3].trim().toLowerCase() === pais) {
+                            // Filtrar solo los valores de IPv4
+                            if (!esIPv6(datos[0].trim()) && !esIPv6(datos[1].trim())) {
+                                campo1.push(datos[0].trim());
+                                campo2.push(datos[1].trim());
+                                lineasCoincidentes++;
+                            }
+                        }
+                    }
+
+                    // Crear un archivo CSV con los datos filtrados de campo1 y campo2
+                    let csvContent = "";
+                    for (let i = 0; i < campo1.length; i++) {
+                        csvContent += `${campo1[i]},${campo2[i]}\n`;
+                    }
+
+                    let nombrecsv = pais;
+
+                    // Descargar el archivo CSV
+                    descargarArchivoCSV(csvContent,nombrecsv);
+                })
+                .catch(error => console.error('Error al leer el archivo CSV:', error))
+                .finally(() => {
+                    progresoDiv.innerHTML = `Listado de IPs cargado`;
+                    lineastotal.innerHTML = lineasCoincidentes + ' rangos encontrados';
+                });
+                
+        }
+
+        function bajacsv1() {
+            const seleccionado = document.getElementById('region').value;
+            if (!seleccionado) {
+                alert('Por favor, seleccione una región');
+                return;
+            }
+            const progresoDiv = document.getElementById('progreso');
+            const lineastotal = document.getElementById('numlineas');
+            progresoDiv.innerHTML = `Cargando...`;
+            lineastotal.innerHTML = '';
+
+            const pais = document.getElementById('pais').value.trim().toLowerCase();
+            const region = document.getElementById('region').value.trim();
+            const campo1 = [];
+            const campo2 = [];
+            let lineasCoincidentes = 0;
+
+            fetch('csv/datos.csv')
+                .then(response => response.text())
+                .then(data => {
+                    // Limpiar el CSV de comillas
+                    data = data.replace(/"(.*?)"/g, limpiarComillas);
+
+                    const filas = data.split('\n');
+
+                    for (const fila of filas) {
+                        const datos = fila.split(',');
+                        if (datos.length >= 6 && datos[3].trim().toLowerCase() === pais && datos[4].trim() === region) {
+                            // Filtrar solo los valores de IPv4
+                            if (!esIPv6(datos[0].trim()) && !esIPv6(datos[1].trim())) {
+                                campo1.push(datos[0].trim());
+                                campo2.push(datos[1].trim());
+                                lineasCoincidentes++;
+                            }
+                        }
+                    }
+
+                    // Crear un archivo CSV con los datos filtrados de campo1 y campo2
+                    let csvContent = "";
+                    for (let i = 0; i < campo1.length; i++) {
+                        csvContent += `${campo1[i]},${campo2[i]}\n`;
+                    }
+
+                    let nombrecsv = region;
+
+                    // Descargar el archivo CSV
+                    descargarArchivoCSV(csvContent,nombrecsv);
+                })
+                .catch(error => console.error('Error al leer el archivo CSV:', error))
+                .finally(() => {
+                    progresoDiv.innerHTML = `Listado de IPs cargado`;
+                    lineastotal.innerHTML = lineasCoincidentes + ' rangos encontrados';
+                });
+                
+        }
+
+        function bajacsv2() {
+            const seleccionado = document.getElementById('ciudad').value;
+            if (!seleccionado) {
+                alert('Por favor, seleccione una ciudad');
+                return;
+            }
+            const progresoDiv = document.getElementById('progreso');
+            const lineastotal = document.getElementById('numlineas');
+            progresoDiv.innerHTML = `Cargando...`;
+            lineastotal.innerHTML = '';
+
+            const ciudadSeleccionada = document.getElementById('ciudad').value;
+            const pais = document.getElementById('pais').value.trim().toLowerCase();
+            const region = document.getElementById('region').value.trim();
+            const campo1 = [];
+            const campo2 = [];
+            let lineasCoincidentes = 0;
+
+            fetch('csv/datos.csv')
+                .then(response => response.text())
+                .then(data => {
+                    // Limpiar el CSV de comillas
+                    data = data.replace(/"(.*?)"/g, limpiarComillas);
+
+                    const filas = data.split('\n');
+
+                    for (const fila of filas) {
+                        const datos = fila.split(',');
+                        if (datos.length >= 6 && datos[3].trim().toLowerCase() === pais && datos[4].trim() === region && datos[5].trim() === ciudadSeleccionada) {
+                            // Filtrar solo los valores de IPv4
+                            if (!esIPv6(datos[0].trim()) && !esIPv6(datos[1].trim())) {
+                                campo1.push(datos[0].trim());
+                                campo2.push(datos[1].trim());
+                                lineasCoincidentes++;
+                            }
+                        }
+                    }
+
+                    // Crear un archivo CSV con los datos filtrados de campo1 y campo2
+                    let csvContent = "";
+                    for (let i = 0; i < campo1.length; i++) {
+                        csvContent += `${campo1[i]},${campo2[i]}\n`;
+                    }
+
+                    let nombrecsv = ciudadSeleccionada;
+
+                    // Descargar el archivo CSV
+                    descargarArchivoCSV(csvContent,nombrecsv);
+                    
+                })
+                .catch(error => console.error('Error al leer el archivo CSV:', error))
+                .finally(() => {
+                    progresoDiv.innerHTML = `Listado de IPs cargado`;
+                    lineastotal.innerHTML = lineasCoincidentes + ' rangos encontrados';
+                });
+
+        }
+
+        function descargarArchivoCSV(csvContent,nombrecsv) {
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = nombrecsv + '.csv';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function cuentarangos1() {
+            const pais = document.getElementById('pais').value.trim().toLowerCase();
+            const region = document.getElementById('region').value.trim();
+
+            const ciudadSelect = document.getElementById('ciudad');
+            ciudadSelect.innerHTML = '<option value="">Seleccione...</option>';
+            var limp1 = document.getElementById('campo1');
+            var limp2 = document.getElementById('campo2');
+            limp1.value = "";
+            limp2.value = "";
+
+            const progresoDiv = document.getElementById('progreso');
+            const lineastotal = document.getElementById('numlineas');
+            progresoDiv.innerHTML = `Cargando...`;
+            lineastotal.innerHTML = '';
+            let lineasCoincidentes = 0;
+
+            fetch('csv/datos.csv')
+                .then(response => response.text())
+                .then(data => {
+                    // Limpiar el CSV de comillas
+                    data = data.replace(/"(.*?)"/g, limpiarComillas);
+
+                    const filas = data.split('\n');
+
+                    for (const fila of filas) {
+                        const datos = fila.split(',');
+                        if (datos.length >= 6 && datos[3].trim().toLowerCase() === pais && datos[4].trim() === region) {
+                            // Filtrar solo los valores de IPv4
+                            if (!esIPv6(datos[0].trim()) && !esIPv6(datos[1].trim())) {
+                                lineasCoincidentes++;
+                            }
+                        }
+                    }
+
+                })
+                .catch(error => console.error('Error al leer el archivo CSV:', error))
+                .finally(() => {
+                    progresoDiv.innerHTML = `Región cargada`;
+                    lineastotal.innerHTML = lineasCoincidentes + ' rangos encontrados';
+                });
+
+        }
+
+        function cuentarangos2() {
+            const ciudadSeleccionada = document.getElementById('ciudad').value;
+            const pais = document.getElementById('pais').value.trim().toLowerCase();
+            const region = document.getElementById('region').value.trim();
+
+            var limp1 = document.getElementById('campo1');
+            var limp2 = document.getElementById('campo2');
+            limp1.value = "";
+            limp2.value = "";
+
+            const progresoDiv = document.getElementById('progreso');
+            const lineastotal = document.getElementById('numlineas');
+            progresoDiv.innerHTML = `Cargando...`;
+            lineastotal.innerHTML = '';
+            let lineasCoincidentes = 0;
+
+            fetch('csv/datos.csv')
+                .then(response => response.text())
+                .then(data => {
+                    // Limpiar el CSV de comillas
+                    data = data.replace(/"(.*?)"/g, limpiarComillas);
+
+                    const filas = data.split('\n');
+
+                    for (const fila of filas) {
+                        const datos = fila.split(',');
+                        if (datos.length >= 6 && datos[3].trim().toLowerCase() === pais && datos[4].trim() === region && datos[5].trim() === ciudadSeleccionada) {
+                            // Filtrar solo los valores de IPv4
+                            if (!esIPv6(datos[0].trim()) && !esIPv6(datos[1].trim())) {
+                                lineasCoincidentes++;
+                            }
+                        }
+                    }
+
+                })
+                .catch(error => console.error('Error al leer el archivo CSV:', error))
+                .finally(() => {
+                    progresoDiv.innerHTML = `Ciudad cargada`;
+                    lineastotal.innerHTML = lineasCoincidentes + ' rangos encontrados';
+                });
+
+        }
+
+        function limpiarform() {
+            const regionSelect = document.getElementById('region');
+            regionSelect.innerHTML = '<option value="">Seleccione...</option>';
+            const ciudadSelect = document.getElementById('ciudad');
+            ciudadSelect.innerHTML = '<option value="">Seleccione...</option>';
+            var limp1 = document.getElementById('campo1');
+            var limp2 = document.getElementById('campo2');
+            limp1.value = "";
+            limp2.value = "";
+            const progresoDiv = document.getElementById('progreso');
+            const lineastotal = document.getElementById('numlineas');
+            progresoDiv.innerHTML = ``;
+            lineastotal.innerHTML = '';
+        }
+
+        function limpiarcampos1() {
+            var limp1 = document.getElementById('campo1');
+            var limp2 = document.getElementById('campo2');
+            var dropdown1 = document.getElementById("region");
+            var dropdown2 = document.getElementById("ciudad");
+            const progresoDiv = document.getElementById('progreso');
+            const lineastotal = document.getElementById('numlineas');
+            limp1.value = "";
+            limp2.value = "";
+            dropdown1.selectedIndex = 0;
+            dropdown2.selectedIndex = 0;
+            progresoDiv.innerHTML = ``;
+            lineastotal.innerHTML = '';
+        }
+
+    </script>
+</body>
+</html>
